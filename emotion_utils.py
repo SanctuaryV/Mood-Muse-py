@@ -1,15 +1,35 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import wordcut
+from thai_stopwords import get_stopwords
 import torch
 import torch.nn.functional as F
+from transformers import AutoModelForSequenceClassification
 
+# โมเดลที่ใช้
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
-tokenizer = BertTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=3)
 
+# โหลด stopwords ภาษาไทย
+stop_words = set(get_stopwords())
+
+# ฟังก์ชัน preprocess สำหรับข้อความภาษาไทย
+def preprocess(text):
+    # ลบอักขระพิเศษและตัวเลขออกจากข้อความ
+    text = re.sub(r'[^ก-ฮะ-์\s]', '', text)
+    # ใช้ wordcut ในการ tokenize ข้อความ
+    tokens = wordcut.cut(text).split()
+    # ลบ stopwords
+    tokens = [word for word in tokens if word not in stop_words]
+    return " ".join(tokens)
+
+# ฟังก์ชันวิเคราะห์อารมณ์
 EMOTION_LABELS = ['negative', 'neutral', 'positive']
 
 def analyze_emotion_with_wangchanberta(text):
-    inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True)
+    # Preprocess ข้อความก่อน
+    processed_text = preprocess(text)
+    
+    # ใช้ torch สำหรับการประมวลผลโมเดล
+    inputs = tokenizer(processed_text, return_tensors="pt", truncation=True, padding=True)
     with torch.no_grad():
         logits = model(**inputs).logits
         probs = F.softmax(logits, dim=1)
