@@ -7,7 +7,7 @@ from transformers import AutoModelForSequenceClassification
 
 # โมเดลที่ใช้
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
-model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=3)
+model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=3,torch_dtype=torch.float16)
 
 # โหลด stopwords ภาษาไทย
 stop_words = set(thai_stopwords())
