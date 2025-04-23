@@ -1,4 +1,4 @@
-import wordcut
+from pythainlp.tokenize import word_tokenize
 from thai_stopwords import get_stopwords
 import torch
 import torch.nn.functional as F
@@ -15,8 +15,8 @@ stop_words = set(get_stopwords())
 def preprocess(text):
     # ลบอักขระพิเศษและตัวเลขออกจากข้อความ
     text = re.sub(r'[^ก-ฮะ-์\s]', '', text)
-    # ใช้ wordcut ในการ tokenize ข้อความ
-    tokens = wordcut.cut(text).split()
+    # ใช้ pythainlp ในการ tokenize ข้อความ
+    tokens = word_tokenize(text)
     # ลบ stopwords
     tokens = [word for word in tokens if word not in stop_words]
     return " ".join(tokens)
