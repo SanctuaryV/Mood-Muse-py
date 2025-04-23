@@ -1,7 +1,7 @@
-fastapi==0.95.2
-uvicorn==0.21.1
-transformers==4.29.2
-torch==2.1.0
-wordcut==1.0.0
-thai-stopwords==0.0.1
-google-generativeai==0.1.0  # สำหรับการใช้ Gemini API
+fastapi
+uvicorn
+transformers
+torch
+wordcut
+thai-stopwords
+google-generativeai0  # สำหรับการใช้ Gemini API
