@@ -3,4 +3,5 @@ uvicorn
 transformers
 torch
 google-generativeai
-tiktoken
+sentencepiece
+scipy
