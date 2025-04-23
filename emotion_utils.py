@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=3)
 
 EMOTION_LABELS = ['negative', 'neutral', 'positive']
