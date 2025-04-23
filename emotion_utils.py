@@ -1,5 +1,6 @@
 from pythainlp.tokenize import word_tokenize
-from thai_stopwords import get_stopwords
+from pythainlp.corpus.common import thai_stopwords
+import re
 import torch
 import torch.nn.functional as F
 from transformers import AutoModelForSequenceClassification
@@ -9,7 +10,7 @@ model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=3)
 
 # โหลด stopwords ภาษาไทย
-stop_words = set(get_stopwords())
+stop_words = set(thai_stopwords())
 
 # ฟังก์ชัน preprocess สำหรับข้อความภาษาไทย
 def preprocess(text):
